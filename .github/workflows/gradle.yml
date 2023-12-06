@@ -13,8 +13,8 @@ on:
      -master
 
 env:
-  AWS_REGION: ava
-  S3_BUCKET_NAME: ava
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: rmsoft-youngjun-bucket
   CODE_DEPLOY_APPLICATION_NAME: aba
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: abc
 permissions:
