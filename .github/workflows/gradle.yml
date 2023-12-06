@@ -33,7 +33,9 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Build with Gradle
-      run: ./gradlew clean build -x test
+      run: |
+        cd /home/runner/work/RMSoft/RMSoft
+        ./gradlew clean build -x test
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -52,4 +54,4 @@ jobs:
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.jar,bundleType=zip
+          --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.jar,bundleType=tar
