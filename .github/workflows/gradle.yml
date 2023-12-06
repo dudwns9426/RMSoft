@@ -48,7 +48,7 @@ jobs:
 
     - name: Upload to AWS S3
       run: |
-        aws s3 cp build/libs/*.jar s3://$S3_BUCKET_NAME/$GITHUB_SHA.jar
+        aws s3 cp build/libs/*.jar "s3://$S3_BUCKET_NAME/$GITHUB_SHA.jar"
 
     - name: Deploy to AWS EC2 from S3
       run: |
