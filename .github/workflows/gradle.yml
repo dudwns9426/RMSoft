@@ -15,8 +15,8 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: rmsoft-youngjun-bucket
-  CODE_DEPLOY_APPLICATION_NAME: aba
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: abc
+  CODE_DEPLOY_APPLICATION_NAME: RMSoft
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: RMSoftCD
 permissions:
   contents: read
 
