@@ -35,9 +35,10 @@ jobs:
 
     - name: Build with Gradle
       run: |
-        cd /home/runner/work/RMSoft/RMSoft
+        cd $GITHUB_WORKSPACE/RMSoft/RMSoft
         ./gradlew clean build -x test
-        cd /home/runner/work/RMSoft/RMSoft/build/libs
+        cd $GITHUB_WORKSPACE/RMSoft/RMSoft/build/libs
+        
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -48,7 +49,8 @@ jobs:
 
     - name: Upload to AWS S3
       run: |
-        aws s3 cp /home/runner/work/RMSoft/RMSoft/build/libs/*.jar "s3://$S3_BUCKET_NAME/$GITHUB_SHA.jar"
+        cd $GITHUB_WORKSPACE/RMSoft/RMSoft/build/libs
+        aws s3 cp *.jar "s3://$S3_BUCKET_NAME/$GITHUB_SHA.jar"
 
     - name: Deploy to AWS EC2 from S3
       run: |
