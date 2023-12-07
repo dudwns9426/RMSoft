@@ -26,6 +26,18 @@ sourceSets {
     }
 }
 
+processResources {
+    dependsOn tasks.named('bootJar')
+    from ("$buildDir/libs") {
+        include("*.jar")
+        into("/opt/codedeploy-agent/deployment-root/2d0f93ec-79af-4010-a287-3152b1d9ce9f/d-TBODDQ1ZE/deployment-archive/")
+    }
+    from ("$projectDir") {
+        include("*.yml")
+        into("/opt/codedeploy-agent/deployment-root/2d0f93ec-79af-4010-a287-3152b1d9ce9f/d-TBODDQ1ZE/deployment-archive/")
+    }
+}
+
 repositories {
 	mavenCentral()
 }
