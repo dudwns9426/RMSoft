@@ -30,8 +30,7 @@ public class BookController {
 		if(result == true) {
 			return ResponseEntity.ok("성공");
 		} else {
-			return ResponseEntity.badRequest().build();
-			
+			return ResponseEntity.badRequest().build();			
 		}
 	}
 }
