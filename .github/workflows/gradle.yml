@@ -33,14 +33,14 @@ jobs:
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
 
+    - name: Copy appspec.yml to build/libs
+      run: cp appspec.yml $GITHUB_WORKSPACE/build/libs/
+    
     - name: Build with Gradle
       run: |
         cd $GITHUB_WORKSPACE
         ./gradlew clean build -x test
         cd $GITHUB_WORKSPACE/build/libs
-
-    - name: Copy appspec.yml to build/libs
-      run: cp appspec.yml $GITHUB_WORKSPACE/build/libs/    
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
