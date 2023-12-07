@@ -43,6 +43,7 @@ jobs:
     - name: Make Zip File
       run: |
         cd $GITHUB_WORKSPACE/build/libs
+        cp $GITHUB_WORKSPACE/appspec.yml .
         zip -qq -r $GITHUB_SHA.zip .
       shell: bash    
 
