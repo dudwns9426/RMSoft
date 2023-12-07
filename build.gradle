@@ -17,6 +17,15 @@ configurations {
 	}
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = [".", "src/main/resources"]
+            includes = ["appspec.yml"]
+        }
+    }
+}
+
 repositories {
 	mavenCentral()
 }
