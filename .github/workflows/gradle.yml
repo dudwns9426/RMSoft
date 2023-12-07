@@ -32,9 +32,6 @@ jobs:
 
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
-
-    - name: Copy appspec.yml to build/libs
-      run: cp appspec.yml $GITHUB_WORKSPACE/build/libs
     
     - name: Build with Gradle
       run: |
