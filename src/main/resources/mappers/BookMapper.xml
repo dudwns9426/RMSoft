@@ -24,63 +24,44 @@
   </insert>
   
   <!-- 도서 전체 리스트 select -->
-  <select id="selectBookList" parameterType="BookDTO" resultType="BookDTO">
-    SELECT
-    name
+  <select id="getBookList" resultType="BookDTO">
+    SELECT *
     FROM
     book
+    WHERE 1 = 1
+    ORDER BY book_id ASC
   </select>
 
+  <!-- 도서 update -->
+  <update id="modifyBook" parameterType="BookDTO">
+    UPDATE
+    book
+    SET
+    title = #{title, jdbcType=VARCHAR},
+    writer = #{writer, jdbcType=VARCHAR},
+    publisher = #{publisher, jdbcType=VARCHAR},
+    price = #{price}
+    WHERE
+    book_id = #{bookId}
+  </update>
+  
   <!-- 도서 디테일 select -->
-  <select id="selectBookDetail" parameterType="String" resultType="BookDTO">
+  <select id="getBookDetail" parameterType="Long" resultType="BookDTO">
     SELECT
     <include refid="bookColumns" />
     FROM
     book
     WHERE
-    en_name = #{enName}
+    book_id = #{bookId}
   </select>
 
-  <!-- 도서 update(searchCount) -->
-  <update id="updateBook" parameterType="BookDTO">
-    UPDATE
-    book
-    SET
-    search_count = #{searchCount}
-    WHERE
-    en_name = #{enName}
-  </update>
-
   <!-- 도서 delete -->
-  <delete id="deleteBook" parameterType="String">
+  <delete id="deleteBook" parameterType="Long">
     DELETE
     FROM
     book
     WHERE
-    en_name = #{enName}
+    book_id = #{bookId}
   </delete>
 
-
-
-  <!-- 도서 select 총 갯수 -->
-  <select id="selectBookTotalCount" parameterType="BookDTO" resultType="int">
-    SELECT
-    COUNT(*)
-    FROM
-    book
-    WHERE
-    en_name = #{enName}
-  </select>
-
-  <!-- 도서 영어이름, 설명 리스트 select -->
-  <select id="selectBookEnList" resultType="BookDTO">
-    SELECT
-    en_name,
-    explanation
-    FROM
-    book
-    WHERE
-    1=1
-    ORDER BY search_count DESC
-  </select>
 </mapper>
