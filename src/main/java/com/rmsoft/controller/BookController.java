@@ -28,7 +28,7 @@ public class BookController {
 	public ResponseEntity<String> createBook(@RequestBody BookDTO params){
 		boolean result = bookService.insertBook(params);
 		if(result == true) {
-			return ResponseEntity.ok("성공");
+			return ResponseEntity.ok().body("성공");
 		} else {
 			return ResponseEntity.badRequest().build();			
 		}
