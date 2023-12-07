@@ -32,13 +32,21 @@ jobs:
 
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
-
+    
     - name: Build with Gradle
       run: |
         cd $GITHUB_WORKSPACE
         ./gradlew clean build -x test
         cd $GITHUB_WORKSPACE/build/libs
         
+     #프로젝트 zip파일로 압축
+    - name: Make Zip File
+      run: |
+        cd $GITHUB_WORKSPACE/build/libs
+        cp $GITHUB_WORKSPACE/appspec.yml .
+        cp -r $GITHUB_WORKSPACE/scripts .
+        zip -qq -r $GITHUB_SHA.zip .
+      shell: bash    
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -49,8 +57,7 @@ jobs:
 
     - name: Upload to AWS S3
       run: |
-        cd $GITHUB_WORKSPACE/build/libs
-        aws s3 cp . "s3://$S3_BUCKET_NAME/$GITHUB_SHA.jar" --recursive
+        aws s3 cp $GITHUB_WORKSPACE/build/libs/$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
 
     - name: Deploy to AWS EC2 from S3
-      run: aws deploy create-deployment --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.jar/RMSoft-0.0.1-SNAPSHOT.jar,bundleType=zip
+      run: aws deploy create-deployment --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
