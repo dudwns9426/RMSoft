@@ -1,4 +1,4 @@
-package com.rmsoft.domain;
+package com.rmsoft.domain.dto;
 
 import lombok.Data;
 

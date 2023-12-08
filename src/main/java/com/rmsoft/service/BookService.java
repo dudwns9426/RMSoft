@@ -2,7 +2,7 @@ package com.rmsoft.service;
 
 import java.util.List;
 
-import com.rmsoft.domain.BookDTO;
+import com.rmsoft.domain.dto.BookDTO;
 
 public interface BookService {
 	public boolean insertBook(BookDTO bookDTO);

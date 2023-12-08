@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rmsoft.mapper.RentMapper">
+
+  <sql id="rentColumns">
+    book_id,
+    user_id,
+    return_yn,
+    rent_date,
+    due_date
+  </sql>
+
+  <!-- 도서 대여  -->
+  <insert id="createRent" parameterType="RentRequest">
+    INSERT INTO rent (
+      book_id,
+      user_id
+    ) VALUES (
+      #{bookId},
+      #{userId}
+    )
+  </insert>
+
+  <!-- 도서 반납 -->
+  <update id="updateReturn" parameterType="Long">
+    UPDATE
+    rent
+    SET
+    return_yn = "Y"
+    WHERE
+    book_id = #{bookId}
+  </update>
+  
+  <!-- 도서 대출 이력 -->
+  <select id="getRentHistory" parameterType="Long" resultType="RentDTO">
+    SELECT r.return_yn, 
+    	   r.rent_date, 
+    	   r.due_date, 
+    	   u.name AS user_name, 
+    	   b.title AS book_title
+    FROM rent AS r
+    JOIN user AS u 
+    ON r.user_id = u.user_id
+    JOIN book AS b 
+    ON r.book_id = b.book_id
+    WHERE r.book_id = #{bookId}
+  </select>
+
+
+</mapper>

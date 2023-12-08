@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.rmsoft.domain.BookDTO;
+import com.rmsoft.domain.dto.BookDTO;
 
 @Mapper
 public interface BookMapper {

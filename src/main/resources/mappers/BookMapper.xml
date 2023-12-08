@@ -45,7 +45,7 @@
     book_id = #{bookId}
   </update>
   
-  <!-- 도서 디테일 select -->
+  <!-- 도서 상세 select -->
   <select id="getBookDetail" parameterType="Long" resultType="BookDTO">
     SELECT
     <include refid="bookColumns" />
