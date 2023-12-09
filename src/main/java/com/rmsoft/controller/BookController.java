@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.rmsoft.domain.dto.BookDTO;
 import com.rmsoft.service.BookService;
+import com.rmsoft.util.AppException;
+import com.rmsoft.util.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,15 +29,18 @@ public class BookController {
      * 도서 등록을 처리하는 메서드
      * 
      * @param bookDTO 등록할 도서 정보를 담은 DTO
-     * @return 성공 시 200 OK와 메시지, 실패 시 400 Bad Request
+     * @return 성공 시 200 OK와 메시지, 실패 시 500 Internal Server Error
      */
     @PostMapping
     public ResponseEntity<String> createBook(@RequestBody BookDTO bookDTO) {
+    	if(bookDTO == null) {
+    		throw new AppException(ErrorCode.NULL_POINT_EXCEPTION, "잘못된 요청입니다.");
+    	}
         boolean result = bookService.insertBook(bookDTO);
         if (result) {
             return ResponseEntity.ok().body("도서 등록에 성공하였습니다.");
         } else {
-            return ResponseEntity.badRequest().build();
+        	return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -59,18 +64,18 @@ public class BookController {
      * 
      * @param bookId  수정할 도서의 ID
      * @param bookDTO 수정할 도서 정보를 담은 DTO
-     * @return 성공 시 200 OK와 메시지, 실패 시 400 Bad Request
+     * @return 성공 시 200 OK와 메시지, 실패 시 500 Internal Server Error
      */
     @PutMapping("/{id}")
     public ResponseEntity<String> modifyBook(@PathVariable(name = "id") Long bookId, @RequestBody BookDTO bookDTO) {
-        if (bookId == null) {
-            return ResponseEntity.badRequest().body("도서 ID를 제공해야 합니다.");
+        if (bookId == null || bookDTO == null) {
+        	throw new AppException(ErrorCode.NULL_POINT_EXCEPTION, "잘못된 요청입니다.");
         }
         boolean result = bookService.modifyBook(bookDTO);
         if (result) {
             return ResponseEntity.ok().body("도서 정보를 수정하였습니다.");
         } else {
-            return ResponseEntity.badRequest().build();
+        	return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -83,7 +88,7 @@ public class BookController {
     @GetMapping("/{id}")
     public ResponseEntity<?> selectBookDetail(@PathVariable(name = "id") Long bookId) {
         if (bookId == null) {
-            return ResponseEntity.badRequest().body("도서 ID를 제공해야 합니다.");
+        	throw new AppException(ErrorCode.NULL_POINT_EXCEPTION, "잘못된 요청입니다.");
         }
         BookDTO bookDTO = bookService.getBookDetail(bookId);
         if (bookDTO != null) {
@@ -97,18 +102,18 @@ public class BookController {
      * 도서 삭제를 처리하는 메서드
      * 
      * @param bookId 삭제할 도서의 ID
-     * @return 성공 시 200 OK와 메시지, 실패 시 400 Bad Request
+     * @return 성공 시 200 OK와 메시지, 실패 시 500 Internal Server Error
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable(name = "id") Long bookId) {
         if (bookId == null) {
-            return ResponseEntity.badRequest().body("도서 ID를 제공해야 합니다.");
+        	throw new AppException(ErrorCode.NULL_POINT_EXCEPTION, "잘못된 요청입니다.");
         }
         boolean result = bookService.deleteBook(bookId);
         if (result) {
             return ResponseEntity.ok().body("도서를 삭제하였습니다.");
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

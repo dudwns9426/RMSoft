@@ -19,6 +19,8 @@ import com.rmsoft.domain.dto.RentDTO;
 import com.rmsoft.service.BookService;
 import com.rmsoft.service.RentService;
 import com.rmsoft.service.UserService;
+import com.rmsoft.util.AppException;
+import com.rmsoft.util.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +46,9 @@ public class RentController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, List<RentDTO>>> getRentHistory(@PathVariable(name = "id") Long bookId) {
+    	if(bookId == null) {
+    		throw new AppException(ErrorCode.NULL_POINT_EXCEPTION, "잘못된 요청입니다.");
+    	}
         List<RentDTO> rentHistory = rentService.getRentHistory(bookId);
         if (rentHistory.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -62,6 +67,9 @@ public class RentController {
     @PostMapping("/{id}")
     public ResponseEntity<String> createRent(@PathVariable(name = "id") Long bookId,
                                              @RequestBody Map<String, String> requestBody) {
+    	if(bookId == null || requestBody == null) {
+    		throw new AppException(ErrorCode.NULL_POINT_EXCEPTION, "잘못된 요청입니다.");
+    	}
         String email = requestBody.get("email");
         User user = userService.getByEmail(email);
         if (user == null) {
@@ -84,6 +92,9 @@ public class RentController {
      */
     @PatchMapping("/{id}")
     public ResponseEntity<String> updateReturn(@PathVariable(name = "id") Long bookId) {
+    	if(bookId == null) {
+    		throw new AppException(ErrorCode.NULL_POINT_EXCEPTION, "잘못된 요청입니다.");
+    	}
         boolean result = rentService.updateReturn(bookId);
         if (result) {
             return ResponseEntity.ok().body("반납을 성공하였습니다.");
