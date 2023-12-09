@@ -36,7 +36,7 @@ jobs:
     - name: Build with Gradle
       run: |
         cd $GITHUB_WORKSPACE
-        echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
+        echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
         ./gradlew clean build -x test
         cd $GITHUB_WORKSPACE/build/libs
         
