@@ -97,7 +97,7 @@ public class RentController {
     	}
         boolean result = rentService.updateReturn(bookId);
         if (result) {
-            return ResponseEntity.ok().body("반납을 성공하였습니다.");
+            return ResponseEntity.ok().body("반납을 성공하였습니다.");	
         } else {
             return ResponseEntity.badRequest().body("반납에 실패하였습니다.");
         }
